@@ -1,0 +1,26 @@
+.wrapper {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+
+  /* Кастомная стрелка поверх нативного select */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--ui-color-text-muted);
+    border-bottom: 2px solid var(--ui-color-text-muted);
+    transform: translateY(-70%) rotate(45deg);
+    pointer-events: none;
+  }
+}
+
+.control {
+  width: 100%;
+  appearance: none; /* убираем системную стрелку */
+  padding-right: 36px;
+  cursor: pointer;
+}
