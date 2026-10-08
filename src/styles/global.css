@@ -1,0 +1,18 @@
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--ui-font-family);
+  font-size: var(--ui-font-size-m);
+  color: var(--ui-color-text);
+  background: var(--ui-color-bg);
+}
+button, input, select, textarea { font: inherit; color: inherit; }
+
+/* Уважаем настройку юзера на уменьшение анимаций */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

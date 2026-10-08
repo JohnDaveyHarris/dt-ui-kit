@@ -1,0 +1,62 @@
+:root {
+  color-scheme: light;
+
+  /* Цвета */
+  --ui-color-bg: #ffffff;
+  --ui-color-surface: #f5f6f8;
+  --ui-color-text: #17191c;
+  --ui-color-text-muted: #626d7a;
+  --ui-color-border: #d7dbe0;
+  --ui-color-primary: #2e6be6;
+  --ui-color-primary-hover: #1f56c4;
+  --ui-color-primary-contrast: #ffffff;
+  --ui-color-danger: #d93025;
+  --ui-color-focus: #7aa7ff;
+
+  /* Типографика */
+  --ui-font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ui-font-size-s: 13px;
+  --ui-font-size-m: 15px;
+  --ui-font-size-l: 17px;
+
+  /* Геометрия */
+  --ui-space-1: 4px;
+  --ui-space-2: 8px;
+  --ui-space-3: 12px;
+  --ui-space-4: 16px;
+  --ui-radius-s: 6px;
+  --ui-radius-m: 10px;
+
+  --ui-transition: 150ms ease;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --ui-color-bg: #121417;
+  --ui-color-surface: #1c1f24;
+  --ui-color-text: #eceff1;
+  --ui-color-text-muted: #9aa4ae;
+  --ui-color-border: #3a4048;
+  --ui-color-primary: #6b9bff;
+  --ui-color-primary-hover: #8fb2ff;
+  --ui-color-primary-contrast: #0b1220;
+  --ui-color-danger: #ff6b61;
+  --ui-color-focus: #a9c7ff;
+}
+
+/* Системная тема: если юзер не выбрал тему явно */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --ui-color-bg: #121417;
+    --ui-color-surface: #1c1f24;
+    --ui-color-text: #eceff1;
+    --ui-color-text-muted: #9aa4ae;
+    --ui-color-border: #3a4048;
+    --ui-color-primary: #6b9bff;
+    --ui-color-primary-hover: #8fb2ff;
+    --ui-color-primary-contrast: #0b1220;
+    --ui-color-danger: #ff6b61;
+    --ui-color-focus: #a9c7ff;
+  }
+}
