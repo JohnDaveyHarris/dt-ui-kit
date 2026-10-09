@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 
-const story = (id: string) => `iframe.html?id=${id}&viewMode=story`;
+const story = (id: string, globals = 'theme:light') =>
+  `iframe.html?id=${id}&viewMode=story&globals=${globals}`;
 
 test.describe('Визуальные тесты', () => {
   test('Button / primary', async ({ page }) => {
@@ -9,7 +10,7 @@ test.describe('Визуальные тесты', () => {
   });
 
   test('Button / тёмная тема', async ({ page }) => {
-    await page.goto(story('components-button--primary') + '&globals=theme:dark');
+    await page.goto(story('components-button--primary', 'theme:dark'));
     await expect(page.locator('#storybook-root')).toHaveScreenshot('button-primary-dark.png');
   });
 
