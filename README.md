@@ -4,6 +4,8 @@
 
 [![CI](https://github.com/JohnDaveyHarris/dt-ui-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/JohnDaveyHarris/dt-ui-kit/actions/workflows/ci.yml)
 
+[![GitHub Pages](https://img.shields.io/github/deployments/JohnDaveyHarris/dt-ui-kit/github-pages?label=GitHub%20Pages&logo=github)](https://johndaveyharris.github.io/dt-ui-kit/)
+
 ## Возможности
 
 - Компоненты: `Button`, `TextField`, `TextArea`, `Select`, `Checkbox`, `RadioGroup`
