@@ -11,3 +11,9 @@ export {
   Radio,
   type RadioProps,
 } from './components/RadioGroup/RadioGroup';
+export {
+  useTheme,
+  THEME_STORAGE_KEY,
+  type ThemePreference,
+  type ResolvedTheme,
+} from './hooks/useTheme/useTheme';
