@@ -19,7 +19,7 @@ export interface RadioGroupProps {
   hint?: string;
   error?: string;
   direction?: 'row' | 'column';
-  children: ReactNode;
+  children?: ReactNode;
   className?: string;
 }
 
