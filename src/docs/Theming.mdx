@@ -1,0 +1,98 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { ThemeToggleDemo } from './ThemeToggleDemo';
+
+<Meta title="Guides/Theming" />
+
+# Тематизация
+
+Компоненты кита не содержат жёстко заданных цветов — только CSS-переменные
+(дизайн-токены) из `src/styles/tokens.css`. Тёмная тема — это просто
+переопределение значений этих переменных.
+
+## Как устроено
+
+- Светлые значения объявлены в `:root`;
+- Тёмные — в `[data-theme='dark']`;
+- Пока пользователь не сделал явный выбор, работает системная тема:
+  `prefers-color-scheme` в `tokens.css` плюс `color-scheme` для нативных контролов.
+
+| Токен                | Светлая   | Тёмная    |
+| -------------------- | --------- | --------- |
+| `--ui-color-bg`      | `#ffffff` | `#121417` |
+| `--ui-color-surface` | `#f5f6f8` | `#1c1f24` |
+| `--ui-color-text`    | `#17191c` | `#eceff1` |
+| `--ui-color-border`  | `#d7dbe0` | `#3a4048` |
+| `--ui-color-primary` | `#2e6be6` | `#6b9bff` |
+| `--ui-color-danger`  | `#d93025` | `#ff6b61` |
+
+## Хук useTheme
+
+| Возвращает      | Тип                             | Описание                                 |
+| --------------- | ------------------------------- | ---------------------------------------- |
+| `theme`         | `'light' \| 'dark' \| 'system'` | выбранная тема (хранится в localStorage) |
+| `resolvedTheme` | `'light' \| 'dark'`             | реально применённая тема                 |
+| `setTheme`      | `(t: ThemePreference) => void`  | сменить тему                             |
+
+```tsx
+import { useTheme } from '@your-nickname/ui-kit';
+
+function ThemeSwitcher() {
+  const { resolvedTheme, setTheme } = useTheme();
+  return (
+    <button onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}>
+      {resolvedTheme === 'dark' ? 'Светлая тема' : 'Тёмная тема'}
+    </button>
+  );
+}
+```
+
+Хук пишет выбор в localStorage под ключом `THEME_STORAGE_KEY` (`'ui-theme'`)
+и выставляет `data-theme` на `<html>`.
+
+### Без «мигания» при загрузке (FOUC)
+
+React монтируется не мгновенно, поэтому тему нужно применить до него —
+инлайн-скриптом в `<head>` приложения:
+
+```html
+<script>
+  (function () {
+    try {
+      var stored = localStorage.getItem('ui-theme');
+      var preference = stored === 'light' || stored === 'dark' ? stored : 'system';
+      var resolved =
+        preference === 'system'
+          ? window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light'
+          : preference;
+      document.documentElement.dataset.theme = resolved;
+    } catch (e) {}
+  })();
+</script>
+```
+
+Этот же скрипт подключён к превью этого Storybook (`.storybook/preview-head.html`).
+
+## Живое демо
+
+Выбери тему — состояние переживёт перезагрузку страницы:
+
+<ThemeToggleDemo />
+
+## Переопределение токенов
+
+Потребитель может перекрасить кит под свой бренд, не трогая компоненты:
+
+```css
+:root {
+  --ui-color-primary: rebeccapurple;
+  --ui-color-primary-hover: #5327a3;
+}
+
+[data-theme='dark'] {
+  --ui-color-primary: #b79bff;
+}
+```
+
+Хук рассчитан на клиентские приложения; для SSR используйте инлайн-скрипт выше.
