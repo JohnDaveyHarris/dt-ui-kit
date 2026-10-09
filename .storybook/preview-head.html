@@ -1,0 +1,21 @@
+<!--
+  Защита от «мигания» темы (FOUC): выполняется до загрузки React.
+  ВАЖНО: ключ хранения должен совпадать с THEME_STORAGE_KEY из useTheme ('ui-theme').
+-->
+<script>
+  (function () {
+    try {
+      var stored = localStorage.getItem('ui-theme');
+      var preference = stored === 'light' || stored === 'dark' ? stored : 'system';
+      var resolved =
+        preference === 'system'
+          ? window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light'
+          : preference;
+      document.documentElement.dataset.theme = resolved;
+    } catch (e) {
+      /* без localStorage сработает media query в tokens.css */
+    }
+  })();
+</script>
