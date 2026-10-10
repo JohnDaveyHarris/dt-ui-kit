@@ -18,4 +18,14 @@ test.describe('Визуальные тесты', () => {
     await page.goto(story('components-textfield--with-error'));
     await expect(page.locator('#storybook-root')).toHaveScreenshot('textfield-error.png');
   });
+
+  test('Switch / включён', async ({ page }) => {
+    await page.goto(story('components-switch--on'));
+    await expect(page.locator('#storybook-root')).toHaveScreenshot('switch-on.png');
+  });
+
+  test('PasswordField / ошибка', async ({ page }) => {
+    await page.goto(story('components-passwordfield--with-error'));
+    await expect(page.locator('#storybook-root')).toHaveScreenshot('passwordfield-error.png');
+  });
 });
