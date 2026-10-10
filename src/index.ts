@@ -17,3 +17,5 @@ export {
   type ThemePreference,
   type ResolvedTheme,
 } from './hooks/useTheme/useTheme';
+export { Switch, type SwitchProps } from './components/Switch/Switch';
+export { PasswordField, type PasswordFieldProps } from './components/PasswordField/PasswordField';
