@@ -8,12 +8,15 @@ export default defineConfig({
     toHaveScreenshot: { maxDiffPixelRatio: 0.02 },
   },
   use: {
-    baseURL: 'http://localhost:6006',
+    baseURL: 'http://localhost:6008',
     trace: 'on-first-retry',
   },
   webServer: {
-    command: 'npx http-server storybook-static -p 6006 --silent',
-    url: 'http://localhost:6006/iframe.html',
+    // 6008, а не 6006: если dev-сервер Storybook работает на 6006,
+    // reuseExistingServer подхватит его вместо статической сборки,
+    // и скриншоты поймают лоадер. Свой порт - своя среда.
+    command: 'npx http-server storybook-static -p 6008 --silent',
+    url: 'http://localhost:6008/iframe.html',
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,
   },
