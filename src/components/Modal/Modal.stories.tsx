@@ -93,7 +93,9 @@ export const CloseInteraction: Story = {
   // Настоящий Escape в play недостижим: он требует доверенного ввода (см. e2e/modal.spec.ts).
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const dialog = canvas.getByRole('dialog', { name: 'Подтверждение' });
+    // findByRole (в отличие от getByRole) переспрашивает дерево до 1с:
+    // диалог становится доступным после useEffect с showModal()
+    const dialog = await canvas.findByRole('dialog', { name: 'Подтверждение' });
 
     await expect(dialog).toHaveAttribute('open');
     await userEvent.click(canvas.getByRole('button', { name: 'Закрыть' }));
