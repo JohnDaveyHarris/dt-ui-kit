@@ -28,4 +28,9 @@ test.describe('Визуальные тесты', () => {
     await page.goto(story('components-passwordfield--with-error'));
     await expect(page.locator('#storybook-root')).toHaveScreenshot('passwordfield-error.png');
   });
+
+  test('Modal / открыт', async ({ page }) => {
+    await page.goto(story('components-modal--open'));
+    await expect(page.locator('dialog')).toHaveScreenshot('modal-open.png');
+  });
 });
