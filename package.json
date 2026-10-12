@@ -40,6 +40,8 @@
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "pretest:e2e": "npm run build:storybook",
+    "test:storybook": "test-storybook",
+    "test:storybook:ci": "concurrently -k -s first -n \"SB,TEST\" \"npx http-server storybook-static --port 6007 --silent\" \"npx wait-on tcp:6007 && test-storybook --url http://localhost:6007\"",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "prepare": "husky"
@@ -72,6 +74,7 @@
     "@storybook/addon-mcp": "^10.6.1",
     "@storybook/addon-vitest": "^10.6.1",
     "@storybook/react-vite": "^10.6.1",
+    "@storybook/test-runner": "^0.26.0",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.7",
@@ -81,6 +84,7 @@
     "@vitejs/plugin-react": "^6.1.2",
     "@vitest/browser-playwright": "latest",
     "@vitest/coverage-v8": "^5.0.3",
+    "concurrently": "^10.0.6",
     "eslint": "^9.39.5",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-jsx-a11y": "^6.10.2",
@@ -103,6 +107,7 @@
     "typescript-eslint": "^8.71.1",
     "vite": "^8.3.3",
     "vite-plugin-dts": "^5.1.2",
-    "vitest": "^5.0.3"
+    "vitest": "^5.0.3",
+    "wait-on": "^9.5.1"
   }
 }
