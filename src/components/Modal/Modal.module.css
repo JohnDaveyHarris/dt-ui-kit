@@ -1,0 +1,125 @@
+.dialog {
+  margin: auto;
+  width: 480px;
+  max-width: calc(100vw - 2 * var(--ui-space-4));
+  max-height: calc(100dvh - 2 * var(--ui-space-4));
+  padding: 0;
+  border: 1px solid var(--ui-color-border);
+  border-radius: var(--ui-radius-m);
+  background: var(--ui-color-bg);
+  color: var(--ui-color-text);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.25);
+}
+
+/* Диалог сам получает фокус после showModal - рамка элемента дублирует
+   видимую границу модалки, поэтому индикатор глушим */
+.dialog:focus {
+  outline: none;
+}
+
+.s {
+  width: 360px;
+}
+.l {
+  width: 680px;
+}
+
+/* ВАЖНО: фон - нейтральный литерал. ::backdrop не во всех браузерах
+   наследует CSS-переменные от :root, токен здесь использовать нельзя */
+.dialog::backdrop {
+  background: rgb(0 0 0 / 0.55);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-3);
+  max-height: inherit; /* забираем ограничение диалога */
+  padding: var(--ui-space-4);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ui-space-3);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--ui-font-size-l);
+  font-weight: 600;
+}
+
+.description {
+  margin: 0;
+  color: var(--ui-color-text-muted);
+}
+
+.body {
+  min-height: 0; /* позволяет флекс-элементу сжаться ниже контента */
+  overflow-y: auto;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--ui-space-2);
+}
+
+.close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: var(--ui-radius-s);
+  background: transparent;
+  color: var(--ui-color-text-muted);
+  cursor: pointer;
+  transition:
+    background-color var(--ui-transition),
+    color var(--ui-transition);
+
+  &:hover {
+    color: var(--ui-color-text);
+    background: var(--ui-color-surface);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--ui-color-focus);
+    outline-offset: 1px;
+  }
+}
+
+.dialog[open] {
+  animation: modal-in 160ms ease-out;
+}
+.dialog[open]::backdrop {
+  animation: backdrop-in 160ms ease-out;
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* global.css в пакет не входит, поэтому reduced-motion уважаем локально */
+@media (prefers-reduced-motion: reduce) {
+  .dialog[open],
+  .dialog[open]::backdrop {
+    animation: none;
+  }
+}
