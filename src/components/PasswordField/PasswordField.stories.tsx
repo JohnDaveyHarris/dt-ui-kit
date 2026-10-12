@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent, within } from 'storybook/test';
 import { PasswordField } from './PasswordField';
 
 const meta = {
@@ -21,4 +22,17 @@ export const WithError: Story = {
 };
 export const WithoutToggle: Story = {
   args: { label: 'Повторите пароль', showVisibilityToggle: false },
+};
+
+export const VisibilityInteraction: Story = {
+  args: { label: 'Пароль', defaultValue: 's3cret!' },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByLabelText('Пароль');
+
+    await expect(input).toHaveAttribute('type', 'password');
+    await userEvent.click(canvas.getByRole('button', { name: 'Показать пароль' }));
+    await expect(input).toHaveAttribute('type', 'text');
+    await expect(canvas.getByRole('button', { name: 'Скрыть пароль' })).toBeInTheDocument();
+  },
 };

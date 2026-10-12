@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent, within } from 'storybook/test';
 import { Switch } from './Switch';
 
 const meta = {
@@ -32,4 +33,16 @@ export const Disabled: Story = {
 
 export const DisabledChecked: Story = {
   args: { label: 'Автоплатёж', defaultChecked: true, disabled: true },
+};
+
+export const ToggleInteraction: Story = {
+  args: { label: 'Уведомления по email' },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const toggle = canvas.getByRole('switch', { name: 'Уведомления по email' });
+
+    await expect(toggle).not.toBeChecked();
+    await userEvent.click(toggle);
+    await expect(toggle).toBeChecked();
+  },
 };

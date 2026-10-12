@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, fn, userEvent, within } from 'storybook/test';
 import { Button } from './Button';
 
 const meta = {
@@ -19,3 +20,13 @@ export const Secondary: Story = { args: { variant: 'secondary', children: 'От�
 export const Ghost: Story = { args: { variant: 'ghost', children: 'Подробнее' } };
 export const Loading: Story = { args: { children: 'Загрузка…', loading: true } };
 export const Disabled: Story = { args: { children: 'Недоступно', disabled: true } };
+export const ClickInteraction: Story = {
+  args: { children: 'Сохранить', onClick: fn() },
+  play: async ({ canvasElement, args, step }) => {
+    const canvas = within(canvasElement);
+    await step('клик по кнопке вызывает onClick', async () => {
+      await userEvent.click(canvas.getByRole('button', { name: 'Сохранить' }));
+      await expect(args.onClick).toHaveBeenCalledTimes(1);
+    });
+  },
+};
