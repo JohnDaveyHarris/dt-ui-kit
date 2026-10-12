@@ -20,3 +20,11 @@ export {
 export { Switch, type SwitchProps } from './components/Switch/Switch';
 export { PasswordField, type PasswordFieldProps } from './components/PasswordField/PasswordField';
 export { Modal, type ModalProps } from './components/Modal/Modal';
+export {
+  toast,
+  dismissAll,
+  type Toast,
+  type ToastOptions,
+  type ToastVariant,
+} from './components/Toast/toastManager';
+export { Toaster } from './components/Toast/Toast';

@@ -12,6 +12,7 @@
   --ui-color-primary-contrast: #ffffff;
   --ui-color-danger: #d93025;
   --ui-color-focus: #7aa7ff;
+  --ui-color-success: #1a7f37;
 
   /* Типографика */
   --ui-font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -42,6 +43,7 @@
   --ui-color-primary-contrast: #0b1220;
   --ui-color-danger: #ff6b61;
   --ui-color-focus: #a9c7ff;
+  --ui-color-success: #3fb950;
 }
 
 /* Системная тема: если юзер не выбрал тему явно */
