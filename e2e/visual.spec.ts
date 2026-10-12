@@ -1,36 +1,50 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 
+// Тема закреплена явно: база - светлая, тёмная - отдельный тест.
 const story = (id: string, globals = 'theme:light') =>
   `iframe.html?id=${id}&viewMode=story&globals=${globals}`;
 
+// Лоадер Storybook виден, пока сторя не смонтирована (dev-режим,
+// холодный кэш CI) - ждём первого ребёнка в корне стори, прежде чем снимать
+async function gotoStory(page: Page, url: string) {
+  await page.goto(url);
+  await page.waitForSelector('#storybook-root > *');
+}
+
 test.describe('Визуальные тесты', () => {
   test('Button / primary', async ({ page }) => {
-    await page.goto(story('components-button--primary'));
+    await gotoStory(page, story('components-button--primary'));
     await expect(page.locator('#storybook-root')).toHaveScreenshot('button-primary.png');
   });
 
   test('Button / тёмная тема', async ({ page }) => {
-    await page.goto(story('components-button--primary', 'theme:dark'));
+    await gotoStory(page, story('components-button--primary', 'theme:dark'));
     await expect(page.locator('#storybook-root')).toHaveScreenshot('button-primary-dark.png');
   });
 
   test('TextField / ошибка', async ({ page }) => {
-    await page.goto(story('components-textfield--with-error'));
+    await gotoStory(page, story('components-textfield--with-error'));
     await expect(page.locator('#storybook-root')).toHaveScreenshot('textfield-error.png');
   });
 
   test('Switch / включён', async ({ page }) => {
-    await page.goto(story('components-switch--on'));
+    await gotoStory(page, story('components-switch--on'));
     await expect(page.locator('#storybook-root')).toHaveScreenshot('switch-on.png');
   });
 
   test('PasswordField / ошибка', async ({ page }) => {
-    await page.goto(story('components-passwordfield--with-error'));
+    await gotoStory(page, story('components-passwordfield--with-error'));
     await expect(page.locator('#storybook-root')).toHaveScreenshot('passwordfield-error.png');
   });
 
   test('Modal / открыт', async ({ page }) => {
-    await page.goto(story('components-modal--open'));
+    await gotoStory(page, story('components-modal--open'));
     await expect(page.locator('dialog')).toHaveScreenshot('modal-open.png');
+  });
+
+  test('Toast / уведомления', async ({ page }) => {
+    await gotoStory(page, story('components-toast--visible'));
+    await expect(page.getByText('Файл загружен')).toBeVisible();
+    await expect(page.getByRole('region', { name: 'Уведомления' })).toHaveScreenshot('toast.png');
   });
 });
