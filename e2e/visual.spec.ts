@@ -47,4 +47,10 @@ test.describe('Визуальные тесты', () => {
     await expect(page.getByText('Файл загружен')).toBeVisible();
     await expect(page.getByRole('region', { name: 'Уведомления' })).toHaveScreenshot('toast.png');
   });
+
+  test('Tooltip / открыт', async ({ page }) => {
+    await gotoStory(page, story('components-tooltip--visible'));
+    await expect(page.getByRole('tooltip')).toBeVisible();
+    await expect(page.locator('#storybook-root')).toHaveScreenshot('tooltip.png');
+  });
 });
