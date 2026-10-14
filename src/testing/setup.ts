@@ -4,6 +4,17 @@ import { afterEach } from 'vitest';
 
 afterEach(() => cleanup());
 
+// --- Мок ResizeObserver для jsdom ---
+// Используется autoUpdate из @floating-ui; в jsdom не реализован.
+if (typeof globalThis.ResizeObserver === 'undefined') {
+  class ResizeObserverMock {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  }
+  globalThis.ResizeObserver = ResizeObserverMock as unknown as typeof ResizeObserver;
+}
+
 // --- Полифил <dialog> для jsdom ---
 // jsdom парсит <dialog>, но не реализует show()/showModal()/close()
 // (открытый issue jsdom#3294). Эмулируем минимально: атрибут open

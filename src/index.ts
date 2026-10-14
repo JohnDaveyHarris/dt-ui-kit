@@ -28,3 +28,9 @@ export {
   type ToastVariant,
 } from './components/Toast/toastManager';
 export { Toaster } from './components/Toast/Toast';
+export {
+  Tooltip,
+  type TooltipProps,
+  type TooltipPlacement,
+  type TooltipTriggerProps,
+} from './components/Tooltip/Tooltip';

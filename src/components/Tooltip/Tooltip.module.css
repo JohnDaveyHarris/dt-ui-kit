@@ -1,0 +1,23 @@
+.tooltip {
+  max-width: 240px;
+  padding: var(--ui-space-1) var(--ui-space-2);
+  border-radius: var(--ui-radius-s);
+  background: var(--ui-color-text);
+  color: var(--ui-color-bg);
+  font-size: var(--ui-font-size-s);
+  line-height: 1.4;
+  z-index: 9999; /* ниже top layer: модальный <dialog> всегда поверх */
+  animation: tooltip-in 120ms ease-out;
+}
+
+@keyframes tooltip-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tooltip {
+    animation: none;
+  }
+}

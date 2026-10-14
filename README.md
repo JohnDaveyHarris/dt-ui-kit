@@ -9,7 +9,7 @@
 
 ## Возможности
 
-- Компоненты: `Button`, `TextField`, `TextArea`, `PasswordField`, `Select`, `Checkbox`, `RadioGroup`, `Switch`, `Modal`, `Toast`
+- Компоненты: `Button`, `TextField`, `TextArea`, `PasswordField`, `Select`, `Checkbox`, `RadioGroup`, `Switch`, `Modal`, `Toast`, `Tooltip`
 - Тёмная тема на CSS-переменных
 - Доступность: семантика, `aria`-атрибуты, клавиатурная навигация
 - Документация: Storybook (включая axe-проверки в UI)
