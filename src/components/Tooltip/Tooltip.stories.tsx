@@ -9,7 +9,7 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     placement: { control: 'radio', options: ['top', 'right', 'bottom', 'left'] },
-    children: { control: false }, // render prop — не сериализуется
+    children: { control: false }, // render prop не сериализуется
   },
 } satisfies Meta<typeof Tooltip>;
 
@@ -36,12 +36,7 @@ export const AllPlacements: Story = {
       }}
     >
       {(['top', 'right', 'bottom', 'left'] as const).map((placement) => (
-        <Tooltip
-          key={placement}
-          // args.content — общий текст всех четырёх: Controls влияют на все сразу
-          content={`${args.content} ${placement}`}
-          placement={placement}
-        >
+        <Tooltip key={placement} content={`${args.content} ${placement}`} placement={placement}>
           {(trigger) => (
             <Button variant="secondary" {...trigger}>
               {placement}
@@ -100,14 +95,18 @@ export const EscapeInteraction: Story = {
   render: (args) => (
     <Tooltip {...args}>{(trigger) => <Button {...trigger}>Сохранить</Button>}</Tooltip>
   ),
-  // React onKeyDown — синтетические события его вызывают.
-  // Это контраст с <dialog>: там Escape — default action браузера,
+  // React onKeyDown - синтетические события его вызывают.
+  // В контраст с <dialog>: там Escape - default action браузера,
   // требующий доверенного ввода, поэтому он живёт в e2e.
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const trigger = canvas.getByRole('button', { name: 'Сохранить' });
 
-    await expect(canvas.getByRole('tooltip')).toBeInTheDocument();
+    // Позиционирование floating-ui асинхронно, а anti-flash паттерн держит
+    // тултип в visibility:hidden до первого измерения - одноразовый getByRole
+    // в этот момент его не видит. Ждём доступность, как в HoverInteraction.
+    await waitFor(() => expect(canvas.getByRole('tooltip')).toBeInTheDocument());
+
     trigger.focus();
     await userEvent.keyboard('{Escape}');
     await waitFor(() => expect(canvas.queryByRole('tooltip')).not.toBeInTheDocument());
